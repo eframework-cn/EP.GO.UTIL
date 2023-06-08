@@ -1,0 +1,71 @@
+//-----------------------------------------------------------------------//
+//                     GNU GENERAL PUBLIC LICENSE                        //
+//                        Version 2, June 1991                           //
+//                                                                       //
+// Copyright (C) EFramework, https://eframework.cn, All rights reserved. //
+// Everyone is permitted to copy and distribute verbatim copies          //
+// of this license document, but changing it is not allowed.             //
+//                   SEE LICENSE.md FOR MORE DETAILS.                    //
+//-----------------------------------------------------------------------//
+
+package xcollect
+
+// 从数组中索引元素，ele为元素
+func IndexFor[T byte | uint16 | uint32 | uint64 |
+	int | int8 | int16 | int32 | int64 |
+	float32 | float64 | string](arr []T, ele T) int {
+	if arr != nil {
+		for k, v := range arr {
+			if v == ele {
+				return k
+			}
+		}
+	}
+	return -1
+}
+
+// 判断数组是否存在元素，ele为元素
+func ContainsFor[T byte | uint16 | uint32 | uint64 |
+	int | int8 | int16 | int32 | int64 |
+	float32 | float64 | string](arr []T, ele T) bool {
+	if arr != nil {
+		return IndexFor(arr, ele) >= 0
+	}
+	return false
+}
+
+// 从数组中移除元素，ele为元素
+func RemoveFor[T byte | uint16 | uint32 | uint64 |
+	int | int8 | int16 | int32 | int64 |
+	float32 | float64 | string](arr []T, ele T) []T {
+	if arr != nil {
+		for {
+			idx := IndexFor(arr, ele)
+			if idx >= 0 {
+				arr = append(arr[:idx], arr[idx+1:]...)
+			} else {
+				break
+			}
+		}
+	}
+	return arr
+}
+
+// 从数组中移除元素，ele为索引
+func DeleteFor[T byte | uint16 | uint32 | uint64 |
+	int | int8 | int16 | int32 | int64 |
+	float32 | float64 | string](arr []T, ele int) []T {
+	if arr != nil {
+		if ele < len(arr) {
+			arr = append(arr[:ele], arr[ele+1:]...)
+		}
+	}
+	return arr
+}
+
+// 在数组中新增元素，ele为元素
+func AppendFor[T byte | uint16 | uint32 | uint64 |
+	int | int8 | int16 | int32 | int64 |
+	float32 | float64 | string](arr []T, ele T) []T {
+	return append(arr, ele)
+}
