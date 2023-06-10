@@ -1,6 +1,6 @@
 # EP.GO.UTIL
 Package util provides function-wrap for collect, string, event, math, time, etc.  
-[Go to Scripting API](https://go.eframework.cn)
+[Go to Scripting API](https://pkg.go.dev/github.com/eframework-cn/EP.GO.UTIL)
 
 ## SUMMARY | 功能概述
 
