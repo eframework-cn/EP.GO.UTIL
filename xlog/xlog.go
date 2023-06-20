@@ -14,7 +14,6 @@ package xlog
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"strings"
 )
 
@@ -35,20 +34,8 @@ type LogCfg struct {
 }
 
 // 初始化
-//	file: 配置文件
-func Init(file string) *BeeLogger {
-	data, e := ioutil.ReadFile(file)
-	if e != nil {
-		msg := fmt.Sprintf("xlog.Init: file %v load failed, error=%v", file, e)
-		panic(msg)
-	}
-
-	var m map[string]*LogCfg
-	if e := json.Unmarshal(data, &m); e != nil {
-		msg := fmt.Sprintf("xlog.Init: log config invalid, file:%v, error:%v\n", file, e)
-		panic(msg)
-	}
-
+//	cfgs: 配置
+func Init(cfgs map[string]*LogCfg) *BeeLogger {
 	setLogger := func(name string, cfg *LogCfg) {
 		r, _ := json.Marshal(cfg)
 		e := beeLogger.SetLogger(name, string(r))
@@ -58,7 +45,7 @@ func Init(file string) *BeeLogger {
 	}
 
 	level := LevelEmergency
-	for k, v := range m {
+	for k, v := range cfgs {
 		setLogger(k, v)
 		if v.Level > level {
 			level = v.Level

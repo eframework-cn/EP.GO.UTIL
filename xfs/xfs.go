@@ -24,7 +24,7 @@ import (
 //	path: 文件路径
 func DeleteFile(path string) bool {
 	if e := os.Remove(path); e != nil {
-		xlog.Info("xfs.DeleteFile: %v", e)
+		xlog.Error("xfs.DeleteFile: %v", e)
 		return false
 	} else {
 		return true
@@ -34,17 +34,17 @@ func DeleteFile(path string) bool {
 // 判断文件是否存在
 //	path: 文件路径
 func FileExist(path string) bool {
-	_, err := os.Lstat(path)
-	return !os.IsNotExist(err)
+	_, e := os.Stat(path)
+	return e == nil
 }
 
 // 判断文件夹是否存在
 //	path: 文件路径
 //	createIsNotExist: 若不存在则创建
 func PathExist(path string, createIsNotExist ...bool) bool {
-	_, err := os.Lstat(path)
-	if !os.IsNotExist(err) {
-		return true
+	s, e := os.Lstat(path)
+	if e != nil || !s.IsDir() {
+		return false
 	} else {
 		if len(createIsNotExist) == 1 && createIsNotExist[0] {
 			err := os.MkdirAll(path, os.ModePerm)
@@ -67,7 +67,7 @@ func Directory(file string) string {
 func ReadString(file string) string {
 	b, e := ioutil.ReadFile(file)
 	if e != nil {
-		xlog.Info("xfs.ReadString: %v", e)
+		xlog.Error("xfs.ReadString: %v", e)
 		return ""
 	}
 	return xstring.BytesToStr(b)
@@ -78,7 +78,7 @@ func ReadString(file string) string {
 func ReadBytes(file string) []byte {
 	b, e := ioutil.ReadFile(file)
 	if e != nil {
-		xlog.Info("xfs.ReadBytes: %v", e)
+		xlog.Error("xfs.ReadBytes: %v", e)
 		return nil
 	}
 	return b
