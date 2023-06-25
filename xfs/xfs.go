@@ -87,24 +87,24 @@ func ReadBytes(file string) []byte {
 // 写入文件（字符串）
 //	file: 文件路径
 //	value: 文件内容
-//	_mode: 文件模式
-func WriteString(file string, value string, _mode ...os.FileMode) {
-	mode := os.ModeAppend
-	if len(_mode) == 1 {
-		mode = _mode[0]
+//	_perm: 文件权限（默认: os.ModeAppend）
+func WriteString(file string, value string, _perm ...os.FileMode) error {
+	perm := os.ModeAppend
+	if len(_perm) == 1 {
+		perm = _perm[0]
 	}
 	b := xstring.StrToBytes(value)
-	ioutil.WriteFile(file, b, mode)
+	return ioutil.WriteFile(file, b, perm)
 }
 
 // 写入文件（字节数组）
 //	file: 文件路径
 //	value: 文件内容
-//	_mode: 文件模式
-func WriteBytes(file string, value []byte, _mode ...os.FileMode) {
-	mode := os.ModeAppend
-	if len(_mode) == 1 {
-		mode = _mode[0]
+//	_perm: 文件权限（默认: os.ModeAppend）
+func WriteBytes(file string, value []byte, _perm ...os.FileMode) error {
+	perm := os.ModeAppend
+	if len(_perm) == 1 {
+		perm = _perm[0]
 	}
-	ioutil.WriteFile(file, value, mode)
+	return ioutil.WriteFile(file, value, perm)
 }
